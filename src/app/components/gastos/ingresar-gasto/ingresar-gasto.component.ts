@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { PresupuestoService } from 'src/app/services/presupuesto.service';
 
 @Component({

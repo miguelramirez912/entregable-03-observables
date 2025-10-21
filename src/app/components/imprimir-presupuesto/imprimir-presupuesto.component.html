@@ -1,0 +1,18 @@
+<h4 class="text-center">Imprimir Presupuesto</h4>
+<div class="container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Descripción</th>
+                <th scope="col">Cantidad</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let gasto of listaGastos">
+                <td>{{gasto.nombre}}</td>
+                <td>{{gasto.cantidad}}</td>
+            </tr>
+        </tbody>
+    </table>
+  <button class="btn btn-secondary" (click)="regresar()">Regresar</button>  
+</div>

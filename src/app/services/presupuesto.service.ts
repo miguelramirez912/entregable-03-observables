@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -7,7 +7,8 @@ import { Observable, Subject } from 'rxjs';
 export class PresupuestoService {
   presupuesto: number;
   restante: number;
-  private gastos$ = new Subject<any>;
+  private gastos$ = new BehaviorSubject<any>([]);
+  // private listaGastos = null;
 
   constructor() {
     this.presupuesto = 0;
@@ -16,7 +17,13 @@ export class PresupuestoService {
 
    agregarGasto(gasto: any){
     this.restante = this.restante - gasto.cantidad;
-    this.gastos$.next(gasto)
+    console.log('Cantidad restante');
+    console.log(this.restante);
+    // this.listaGastos.push(gasto)
+    const listaGastos = this.gastos$.getValue();
+    // this.gastos$.next(gasto);
+    this.gastos$.next([...listaGastos, gasto])
+    // this.gastos$.next(this.listaGastos);
    }
 
    getGastos(): Observable<any>{

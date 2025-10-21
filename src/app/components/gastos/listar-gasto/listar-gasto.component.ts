@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { PresupuestoService } from 'src/app/services/presupuesto.service';
 import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-listar-gasto',
@@ -8,29 +9,37 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./listar-gasto.component.css']
 })
 export class ListarGastoComponent implements OnInit, OnDestroy {
+
   subscripcion: Subscription;
   presupuesto: number;
   restante: number;
   listGastos: any[] = []
 
-  constructor(private _presupuestoService: PresupuestoService){
+  constructor(private _presupuestoService: PresupuestoService,
+              private router: Router
+  ){
     this.presupuesto = 0;
     this.restante = 0;
     this.subscripcion = this._presupuestoService.getGastos().subscribe(data => {
       console.log(data)
-      this.restante = this.restante - data.cantidad;
-      this.listGastos.push(data)
+      // console.log(this.listGastos)
+      // Solucionar que reste la cantidad de ultimo elemento agregado al array
+      console.log('Ultimo gasto agregado:')
+      const gastoAgregado = data[data?.length-1];
+      this.restante = this.restante - gastoAgregado?.cantidad;
+      // this.listGastos.push(data)
+      this.listGastos = data;
     })
   }
 
   ngOnInit(): void {
     this.presupuesto = this._presupuestoService.presupuesto;
     this.restante = this._presupuestoService.restante;
-    console.log(this.listGastos);
+    // console.log(this.listGastos);
   }
 
   ngOnDestroy(): void {
-    this.subscripcion.unsubscribe;
+    this.subscripcion.unsubscribe();
   }
 
   aplicarColorRestante(){
@@ -41,6 +50,10 @@ export class ListarGastoComponent implements OnInit, OnDestroy {
     } else {
       return 'alert alert-secondary';
     }
+  }
+
+  imprimir() {
+    this.router.navigate(['/imprimirPresupuesto'])
   }
 
 }
