@@ -11,10 +11,15 @@ import { Router } from '@angular/router';
 export class ImprimirPresupuestoComponent implements OnInit, OnDestroy{
 
   subscripcion!: Subscription;
+  presupuesto: number;
+  restante: number;
   listaGastos: any[] = [];
+  total: number = 0;
 
   constructor(private _presupuestoService: PresupuestoService,
               private router: Router){
+    this.presupuesto = this._presupuestoService.presupuesto;
+    this.restante = this._presupuestoService.restante;
   }
 
   ngOnInit(): void {
@@ -22,7 +27,9 @@ export class ImprimirPresupuestoComponent implements OnInit, OnDestroy{
       console.log('.describe() se ejecuta')
       console.log(data);
       this.listaGastos = data;
-    })
+      this.total = this.listaGastos.reduce((acumulador, gasto) => acumulador + gasto.cantidad, 0)
+    });
+    
   }
 
   ngOnDestroy(): void {

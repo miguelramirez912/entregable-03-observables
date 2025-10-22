@@ -1,0 +1,10 @@
+.presupuesto {
+    border: 1px solid black;
+    border-radius: .5rem;
+    background-color: darkkhaki;
+    color: darkslategrey;
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: 1rem;
+}
+
